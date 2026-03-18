@@ -125,7 +125,11 @@ const user = reactive({
 </script>
 
 <style>
-/* 核心样式保持不变 */
+/* 1. 全局重置：确保所有元素的边距计算包含在宽度内，防止撑破边框 */
+* {
+  box-sizing: border-box;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 body { 
@@ -134,86 +138,115 @@ body {
   padding: 0; 
   font-family: 'Inter', "PingFang SC", "Microsoft YaHei", sans-serif;
   -webkit-font-smoothing: antialiased;
+  /* 防止移动端横向滑动 */
+  overflow-x: hidden; 
 }
 
-/* 1. 容器优化：确保在所有设备上居中，并在移动端保留边距 */
+/* 2. 外部容器：居中且防溢出 */
 .app-container { 
-  padding: 40px 10px; 
+  width: 100%;
   display: flex; 
   flex-direction: column; 
   align-items: center; 
-  box-sizing: border-box;
-  min-height: 100vh;
+  padding: 20px 10px; 
 }
 
-/* 2. 工具栏响应式：最大宽度 210mm，但不会超出屏幕 */
 .toolbar { 
   width: 100%;
   max-width: 210mm; 
   display: flex; 
   justify-content: flex-end; 
-  margin-bottom: 25px; 
+  margin-bottom: 20px; 
 }
 
 .print-btn { 
-  padding: 10px 30px; background: #fff; color: #42b983; border: 1px solid #42b983; 
+  padding: 8px 20px; background: #fff; color: #42b983; border: 1px solid #42b983; 
   border-radius: 30px; cursor: pointer; font-weight: 600; transition: all 0.3s;
 }
-.print-btn:hover { background: #42b983; color: white; transform: translateY(-1px); }
 
-/* 3. 简历纸张响应式：核心改动 */
+/* 3. 简历纸张：宽度自适应核心 */
 .resume-paper {
-  width: 100%;           /* 手机端占满全屏 */
+  width: 100%;           /* 默认占满全屏 */
   max-width: 210mm;      /* 电脑端限制为 A4 宽度 */
-  min-height: 297mm;     /* 保持 A4 比例 */
   background: white;
-  padding: 15mm 15mm;    /* 稍微收窄边距以适应移动端 */
-  box-sizing: border-box; 
+  padding: 15mm;         /* 初始边距 */
   box-shadow: 0 10px 40px rgba(0,0,0,0.06); 
   border-radius: 4px;
+  /* 关键：防止长文本（邮箱/代码）撑开容器 */
+  word-wrap: break-word;
+  word-break: break-word; 
+  overflow-wrap: break-word;
 }
 
-/* 4. 基础排版组件优化 */
-.edu-grid { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; flex-wrap: wrap; }
-.edu-main-info { display: flex; gap: 20px; font-weight: 700; color: #1a1a1a; font-size: 1.1rem; flex-wrap: wrap; }
-.edu-details-box { font-size: 0.95rem; color: #555; line-height: 1.7; background: #fbfcfd; padding: 12px 18px; border-radius: 4px; border: 1px solid #f0f0f0; }
-.edu-details-box .label { font-weight: 600; color: #333; }
+/* 4. 排版组件：确保 Flex 布局能自动换行 */
+.edu-grid { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: baseline; 
+  margin-bottom: 12px; 
+  gap: 10px;
+}
 
-.skills-flex-container { display: flex; flex-direction: column; gap: 12px; }
-.skill-group-card { background: #fff; border: 1px solid #eaeaea; padding: 12px 15px; border-radius: 6px; }
-.category-name { margin: 0 0 8px 0; font-size: 1rem; color: #333; font-weight: 600; }
-.skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-.skill-tag-single { font-size: 0.85rem; color: #4b5563; background: #f3f4f6; padding: 2px 12px; border-radius: 15px; border: 1px solid transparent; }
+.edu-main-info { 
+  display: flex; 
+  gap: 15px; 
+  font-weight: 700; 
+  color: #1a1a1a; 
+  font-size: 1.1rem; 
+  flex-wrap: wrap; /* 允许学校和专业在窄屏时换行 */
+}
 
-/* 5. 总结区域网格优化 */
+.edu-details-box { 
+  font-size: 0.95rem; 
+  color: #555; 
+  line-height: 1.6; 
+  background: #fbfcfd; 
+  padding: 12px; 
+  border-radius: 4px; 
+  border: 1px solid #f0f0f0; 
+}
+
+.skills-flex-container { display: flex; flex-direction: column; gap: 10px; }
+.skill-group-card { background: #fff; border: 1px solid #eaeaea; padding: 10px; border-radius: 6px; }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.skill-tag-single { font-size: 0.85rem; padding: 2px 10px; background: #f3f4f6; border-radius: 12px; }
+
+/* 5. 总结区域：使用响应式网格 */
 .summary-flex-box { 
   display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
   gap: 15px; 
 }
-.summary-item-card { background: #fbfcfd; padding: 15px; border-radius: 6px; border: 1px solid #f0f0f0; transition: all 0.3s; }
-.summary-item-card:hover { transform: translateY(-2px); border-color: #42b983; }
-.tag-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; color: #1a1a1a; }
-.summary-dot { width: 6px; height: 6px; background: #42b983; border-radius: 50%; }
-.summary-content { margin: 0; font-size: 0.95rem; color: #555; line-height: 1.6; }
 
-/* 6. --- 手机端专项适配样式 --- */
+/* 6. --- 移动端专项极限适配 (针对手机屏幕) --- */
 @media (max-width: 768px) {
-  .app-container { padding: 10px 5px; } /* 减少外边距 */
+  .app-container { padding: 10px 5px; }
   
   .resume-paper { 
-    padding: 25px 15px;   /* 手机端使用更小的内边距 */
-    min-height: auto;     /* 手机端高度随内容自动撑开 */
+    padding: 20px 15px; /* 进一步缩小内边距 */
+    border-radius: 0;    /* 手机端取消圆角，利用空间 */
   }
 
-  .toolbar { display: none; } /* 手机端隐藏打印按钮 */
+  /* 缩小字体大小，防止标题溢出 */
+  h1 { font-size: 1.8rem !important; } 
+  .edu-main-info { font-size: 0.95rem; }
+  
+  .edu-grid { 
+    flex-direction: column; 
+    align-items: flex-start; 
+  }
 
-  /* 教育背景在手机端改为上下堆叠 */
-  .edu-grid { flex-direction: column; gap: 5px; }
-  .edu-main-info { flex-direction: column; gap: 5px; font-size: 1rem; }
+  /* 强制所有卡片在手机端单列显示 */
+  .summary-flex-box { 
+    grid-template-columns: 1fr; 
+  }
 
-  /* 个人优势在手机端强制单列 */
-  .summary-flex-box { grid-template-columns: 1fr; }
+  /* 关键：联系方式等长字符串在窄屏下强制换行 */
+  a, span, p {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
 }
 
 /* 7. 打印控制 */
@@ -224,11 +257,9 @@ body {
   .resume-paper { 
     box-shadow: none; 
     margin: 0; 
-    padding: 15mm 15mm; 
-    width: 210mm; /* 打印时强制回归标准 A4 宽度 */
+    padding: 15mm; 
+    width: 210mm; 
     border-radius: 0; 
   }
-  .summary-item-card:hover { transform: none; }
-  .project-item:hover { transform: none; }
 }
 </style>
