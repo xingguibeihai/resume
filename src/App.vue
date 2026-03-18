@@ -88,18 +88,17 @@ const user = reactive({
       name: "MyBlog 全栈博客管理系统",
       techStack: "Spring Boot, JPA, MySQL, Vue",
       details: [
-        "主导后端架构设计，利用 JPA 实现多对多复杂关联查询。",
-        "设计并实现基于 Interceptor 的登录验证与后台资源保护机制。",
-        "解决实体类级联操作导致的循环序列化问题，优化部署兼容性。"
+        "技术栈： Spring Boot, Spring Data JPA, MySQL, Thymeleaf/Vue, Maven",
+        "核心内容：主导后端架构设计，利用 JPA 结合 MySQL 实现文章、分类、标签的多对多复杂关联查询。针对用户权限，设计并实现基于 Interceptor（拦截器） 的登录验证与后台资源保护机制。",
+        "难点攻克： 解决了实体类级联操作导致的循环序列化问题，并优化了数据库方言配置以提升部署兼容性。"
       ]
     },
     {
       name: "基于 TCP/UDP 的即时通讯系统",
       techStack: "C/Java, Socket, Wireshark",
       details: [
-        "基于 TCP 实现大文件分块传输与断点续传，确保数据可靠性。",
-        "利用 UDP 配合多线程技术实现高并发消息广播模拟。",
-        "通过 Wireshark 抓包分析握手流程，根据拥塞情况优化缓冲区。"
+        "技术栈： C/Java, Socket API, 多线程, IO 流, Wireshark",
+        "核心内容：文件传输： 基于 TCP 协议实现大文件分块传输与断点续传思路，确保数据传输的完整性与可靠性。即时通讯： 利用 UDP 协议配合多线程技术实现高并发消息广播，模拟多客户端在线交互场景。协议分析： 使用 Wireshark 抓包分析三次握手与四次挥手过程，根据网络拥塞情况调整缓冲区大小，优化传输效率。"
       ]
     },
     {
