@@ -5,7 +5,11 @@
     </div>
 
     <div class="resume-paper">
-      <ResumeHeader v-bind="user" github="github.com/likun-tech" />
+      <ResumeHeader 
+        v-bind="user" 
+        :avatar="avatarUrl"
+        github="github.com/xingguibeihai" 
+      />
 
       <main>
         <ResumeSection title="教育背景">
@@ -60,6 +64,10 @@ import { reactive } from 'vue'
 import ResumeHeader from './components/ResumeHeader.vue'
 import ResumeSection from './components/ResumeSection.vue'
 import ProjectItem from './components/ProjectItem.vue'
+
+// 1. 新增：导入照片文件
+// 请确保在 src/assets/ 下有 avatar.jpg 文件
+import avatarUrl from './assets/avatar.jpg'
 
 const handlePrint = () => window.print()
 
@@ -118,6 +126,7 @@ const user = reactive({
 </script>
 
 <style>
+/* 核心样式保持不变 */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 body { 
@@ -136,7 +145,8 @@ body {
 
 .resume-paper {
   width: 210mm; min-height: 297mm; background: white;
-  padding: 30mm 20mm; box-sizing: border-box; 
+  padding: 25mm 20mm 20mm 20mm; /* A4 标准边距，顶部稍微收窄 */
+  box-sizing: border-box; 
   box-shadow: 0 10px 40px rgba(0,0,0,0.06); border-radius: 4px;
 }
 
